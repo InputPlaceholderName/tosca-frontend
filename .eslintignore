@@ -1,0 +1,3 @@
+tailwind.config.js
+craco.config.js
+src/theme/colors.js
