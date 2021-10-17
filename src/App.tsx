@@ -68,23 +68,23 @@ const App = () => {
               </div>
             </Toolbar>
           </AppBar>
-          {user?.groups.includes("SuperUser") && (
-            <Switch>
-              <Route path="/admin/workspaces/:id">
-                <AdminWorkspace />
-              </Route>
-              <Route path="/admin/users/:id">
-                <AdminUser />
-              </Route>
-              <Route path="/admin">
-                <Admin />
-              </Route>
-            </Switch>
-          )}
           <Switch>
-            <Route>
+            <Route path="/" exact>
               <Workspaces />
             </Route>
+            {user?.groups.includes("SuperUser") && (
+              <>
+                <Route path="/admin/workspaces/:id">
+                  <AdminWorkspace />
+                </Route>
+                <Route path="/admin/users/:id">
+                  <AdminUser />
+                </Route>
+                <Route path="/admin" exact>
+                  <Admin />
+                </Route>
+              </>
+            )}
           </Switch>
         </>
       ) : token !== null ? (

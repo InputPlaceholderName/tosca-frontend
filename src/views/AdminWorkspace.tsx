@@ -166,7 +166,7 @@ const AdminWorkspace: React.FC = () => {
     // before loading the workspace list
     window.setTimeout(() => {
       history.replace("/admin");
-    }, 1000);
+    }, 1500);
   };
 
   const rejectDeleteWorkspace = () => {
@@ -188,77 +188,79 @@ const AdminWorkspace: React.FC = () => {
   return (
     <Container>
       {loadingWorkspace && <CircularProgress />}
-      <Section title="Workspace details">
-        {!loadingWorkspace && (
-          <Formik initialValues={workspace} onSubmit={handleUpdateWorkspace}>
-            {({
-              values,
-              handleChange,
-              dirty,
-              setFieldValue,
-              isSubmitting,
-              submitForm,
-              resetForm,
-            }) => (
-              <Form>
-                <ToscaTextField
-                  name="name"
-                  label="Workspace name"
-                  handleChange={handleChange}
-                  values={values}
-                />
-                <ToscaTextField
-                  name="information"
-                  label="Information"
-                  handleChange={handleChange}
-                  values={values}
-                  multiline={true}
-                />
-                <Autocomplete
-                  disablePortal
-                  className="mb-4 bg-white"
-                  options={users ?? []}
-                  value={values.creator}
-                  isOptionEqualToValue={(a, b) => a.id == b.id}
-                  getOptionLabel={(user) =>
-                    `${formatName(user)} (${user.userId})`
-                  }
-                  renderInput={(params) => (
-                    <TextField {...params} label="Creator" />
-                  )}
-                  onChange={(_event, user) => setFieldValue("creator", user)}
-                />
-                <div className="flex justify-between md:justify-center gap-2">
-                  <div className="hidden md:block md:flex-1"></div>
-                  <Button
-                    className="flex-1 md:flex-none text-xs"
-                    disabled={!dirty || isSubmitting}
-                    variant="contained"
-                    startIcon={<Save />}
-                    onClick={() => {
-                      resetForm({ values });
-                      submitForm();
-                    }}
-                  >
-                    Save
-                  </Button>
-                  <div className="flex-1 text-right">
+      {!loadingWorkspace && (
+        <Section title="Workspace details">
+          {!loadingWorkspace && (
+            <Formik initialValues={workspace} onSubmit={handleUpdateWorkspace}>
+              {({
+                values,
+                handleChange,
+                dirty,
+                setFieldValue,
+                isSubmitting,
+                submitForm,
+                resetForm,
+              }) => (
+                <Form>
+                  <ToscaTextField
+                    name="name"
+                    label="Workspace name"
+                    handleChange={handleChange}
+                    values={values}
+                  />
+                  <ToscaTextField
+                    name="information"
+                    label="Information"
+                    handleChange={handleChange}
+                    values={values}
+                    multiline={true}
+                  />
+                  <Autocomplete
+                    disablePortal
+                    className="mb-4 bg-white"
+                    options={users ?? []}
+                    value={values.creator}
+                    isOptionEqualToValue={(a, b) => a.id == b.id}
+                    getOptionLabel={(user) =>
+                      `${formatName(user)} (${user.userId})`
+                    }
+                    renderInput={(params) => (
+                      <TextField {...params} label="Creator" />
+                    )}
+                    onChange={(_event, user) => setFieldValue("creator", user)}
+                  />
+                  <div className="flex justify-between md:justify-center gap-2">
+                    <div className="hidden md:block md:flex-1"></div>
                     <Button
-                      className="text-xs"
-                      color="error"
+                      className="flex-1 md:flex-none text-xs"
+                      disabled={!dirty || isSubmitting}
                       variant="contained"
-                      startIcon={<DeleteForeverOutlined />}
-                      onClick={() => setShowDeleteWorkspaceDialog(true)}
+                      startIcon={<Save />}
+                      onClick={() => {
+                        resetForm({ values });
+                        submitForm();
+                      }}
                     >
-                      Delete workspace
+                      Save
                     </Button>
+                    <div className="flex-1 text-right">
+                      <Button
+                        className="text-xs"
+                        color="error"
+                        variant="contained"
+                        startIcon={<DeleteForeverOutlined />}
+                        onClick={() => setShowDeleteWorkspaceDialog(true)}
+                      >
+                        Delete workspace
+                      </Button>
+                    </div>
                   </div>
-                </div>
-              </Form>
-            )}
-          </Formik>
-        )}
-      </Section>
+                </Form>
+              )}
+            </Formik>
+          )}
+        </Section>
+      )}
       <Section title="Users">
         {!loadingUsers && (
           <Formik
